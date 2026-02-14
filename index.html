@@ -1,0 +1,75 @@
+<head>
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background-color: #ff9900;
+            margin-left: 0px;
+            margin-top: 0px;
+            top: 0;
+            left: 0;
+            width: 100%;
+}
+    </style>
+</head>
+<body>
+    <script>
+        document.write("<div class=\"navbar\"><h1>Welcome to Joe's Hot Dog Stand</h1> </div>");
+
+        alert("Hotdogs are $5.25 each\nFries are $3.75 each\nDrinks are $2.50 each\nWe offer Joe's Meal Deal at $10 for 1 hotdog, 1 fry, and 1 drink\nOrder over $30 and get 10% off!");
+
+        const PRICE_HOTDOG = 5.25;
+        const PRICE_FRIES = 3.75;
+        const PRICE_SODA = 2.50;
+        const PRICE_MEAL_DEAL = 10;
+        const PRICE_FOR_10_OFF = 30;
+        const MASS_TAX = .0625;
+
+        let numDogs = parseInt(prompt("How many hotdogs would you like?"));
+        let numFries = parseInt(prompt("How many fries would you like?"));
+        let numSoda = parseInt(prompt("How many drinks would you like?"));
+
+        function getMoney(amount) {
+            let rounded = Math.round(amount * 100) / 100;
+            if (rounded - (Math.round(rounded) / 1) == 0) {
+                rounded = rounded + ".00";
+            } else if (rounded - (Math.round(rounded * 10) / 10) == 0 ) {
+                rounded = rounded + "0";
+            }
+
+            return "$" + rounded;
+        }
+
+        let price = 0;
+
+        document.write("<p>Number of Hotdogs ordered: " + numDogs + "</p>");
+        document.write("<p>Number of Fries ordered: " + numFries + "</p>");
+        document.write("<p>Number of Drinks ordered: " + numSoda + "</p>");
+
+        while (((numDogs > 0) && (numFries > 0)) && (numSoda > 0)) {
+            price += PRICE_MEAL_DEAL;
+            numDogs--;
+            numFries--;
+            numSoda--;
+        }
+
+        price += numDogs * PRICE_HOTDOG + numSoda * PRICE_SODA + numFries * PRICE_FRIES;
+
+        document.write("<p>Subtotal before Discounts: " + getMoney(price) + "</p>");
+
+        if (price >= PRICE_FOR_10_OFF) {
+            document.write("<p>Discount Amount: -" + getMoney(price - price * .9) + "</p>");
+            price *= .9;
+        }
+
+        document.write("<p>Subtotal after Discounts: " + getMoney(price) + "</p>");
+
+        document.write("<p>Tax: " + getMoney(price * MASS_TAX) + "</p>");
+
+        price *= (1 + MASS_TAX);
+
+        document.write("<p>Final Total: " + getMoney(price) + "</p>");
+    </script>
+</body>
