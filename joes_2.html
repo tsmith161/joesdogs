@@ -20,6 +20,7 @@
 
         alert("Hotdogs are $5.25 each\nFries are $3.75 each\nDrinks are $2.50 each\nWe offer Joe's Meal Deal at $10 for 1 hotdog, 1 fry, and 1 drink\nOrder over $30 and get 10% off!");
 
+         // constants
         const itemPrices = {
             "Hotdogs": 5.25,
             "Fries": 3.75,
@@ -29,14 +30,17 @@
         const PRICE_FOR_10_OFF = 30;
         const MASS_TAX = .0625;
 
+        // quantities
         const itemQuantities = {};
 
+        // get quantities
         for (let item in itemPrices) {
             let qty = parseInt(prompt("How many " + item + " would you like?"));
             if (isNaN(qty) || qty < 0) qty = 0;
             itemQuantities[item] = qty;
         }
 
+        // turn a number into money
         function getMoney(amount) {
             let rounded = Math.round(amount * 100) / 100;
             if (rounded - (Math.round(rounded) / 1) == 0) {
@@ -48,21 +52,26 @@
             return "$" + rounded;
         }
 
+        // begin price calculations
         let price = 0;
 
+        // find number of meal deals
         let mealdeals = Math.min(itemQuantities["Hotdogs"], itemQuantities["Fries"], itemQuantities["Drinks"]);
 
+        // Order Summary, Removing meal deals from total quantity when calculating price, and calculating price without meal deals
         for(let item in itemQuantities) {
             document.write("<p>Number of " + item + " ordered: " + itemQuantities[item] + "</p>")
             itemQuantities[item] -= mealdeals;
             price += itemQuantities[item] * itemPrices[item];
         }
 
+        // add meal deals to subtotal
         price += mealdeals * PRICE_MEAL_DEAL;
 
 
         document.write("<p>Subtotal before Discounts: " + getMoney(price) + "</p>");
 
+        // determines of 10% off discount applies
         if (price >= PRICE_FOR_10_OFF) {
             document.write("<p>Discount Amount: -" + getMoney(price - price * .9) + "</p>");
             price *= .9;
@@ -70,6 +79,7 @@
 
         document.write("<p>Subtotal after Discounts: " + getMoney(price) + "</p>");
 
+        // calculates tax
         document.write("<p>Tax: " + getMoney(price * MASS_TAX) + "</p>");
 
         price *= (1 + MASS_TAX);
